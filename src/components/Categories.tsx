@@ -22,7 +22,7 @@ const categories = [
 
 export const Categories: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const { scrollY } = useLocoScroll();
+  const { scrollY, scroll } = useLocoScroll();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -38,6 +38,17 @@ export const Categories: React.FC = () => {
     setTimeout(handleScroll, 100);
     return () => window.removeEventListener('loco-scroll', handleScroll);
   }, []);
+
+  const handlePortfolioScroll = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (scroll) {
+      scroll.scrollTo('#portfolio', {
+        duration: 1000,
+        easing: [0.22, 1, 0.36, 1],
+        disableLerp: false
+      });
+    }
+  };
 
   // Parallax effect using the scrollY from context
   const y = useTransform(scrollY || useMotionValue(0), [0, 5000], [0, -500]);
@@ -68,6 +79,7 @@ export const Categories: React.FC = () => {
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="group relative h-[600px] rounded-3xl overflow-hidden cursor-pointer"
+              onClick={handlePortfolioScroll}
             >
               {/* Background Image */}
               <div 

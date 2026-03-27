@@ -6,9 +6,10 @@ import { useLocation } from 'react-router-dom';
 
 interface ScrollContextType {
   scrollY: any;
+  scroll: LocomotiveScroll | null;
 }
 
-const ScrollContext = createContext<ScrollContextType>({ scrollY: null });
+const ScrollContext = createContext<ScrollContextType>({ scrollY: null, scroll: null });
 export const useLocoScroll = () => useContext(ScrollContext);
 
 interface SmoothScrollProps {
@@ -19,7 +20,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollY = useMotionValue(0);
   const location = useLocation();
-  const scrollInstance = useRef<LocomotiveScroll | null>(null);
+  const [scrollInstance, setScrollInstance] = React.useState<LocomotiveScroll | null>(null);
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -32,7 +33,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       touchMultiplier: 2,
     });
 
-    scrollInstance.current = scroll;
+    setScrollInstance(scroll);
 
     scroll.on('scroll', (args: any) => {
       window.dispatchEvent(new CustomEvent('loco-scroll', { detail: args }));
@@ -54,19 +55,19 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       if (scroll) scroll.destroy();
       window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
-      scrollInstance.current = null;
+      setScrollInstance(null);
     };
   }, [scrollY]);
 
   // Scroll to top on route change
   useEffect(() => {
-    if (scrollInstance.current) {
-      scrollInstance.current.scrollTo(0, { duration: 0, disableLerp: true });
+    if (scrollInstance) {
+      scrollInstance.scrollTo(0, { duration: 0, disableLerp: true });
     }
-  }, [location.pathname]);
+  }, [location.pathname, scrollInstance]);
 
   return (
-    <ScrollContext.Provider value={{ scrollY }}>
+    <ScrollContext.Provider value={{ scrollY, scroll: scrollInstance }}>
       <div data-scroll-container ref={scrollRef}>
         {children}
       </div>
