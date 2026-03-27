@@ -34,8 +34,8 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', href: '#' },
     { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
+    { name: 'Corporate Events', href: '#corporate-events' },
+    { name: 'Social Events', href: '#social-events' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -44,7 +44,7 @@ export const Navbar: React.FC = () => {
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
         className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center"
       >
         <div className="absolute bottom-0 left-0 h-[2px] bg-accent-green w-full origin-left transition-transform duration-100" 

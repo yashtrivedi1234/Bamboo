@@ -5,13 +5,15 @@ import { useLocoScroll } from './SmoothScroll';
 
 const categories = [
   {
+    id: 'corporate-events',
     title: 'Corporate Events',
     description: 'Elevating your brand through precision-engineered summits, galas, and product launches.',
     image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop',
     tags: ['Summits', 'Galas', 'Product Launches', 'Conferences'],
   },
   {
-    title: 'Private Events',
+    id: 'social-events',
+    title: 'Social Events',
     description: 'Transforming personal milestones into unforgettable, luxury experiences with an intimate touch.',
     image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop',
     tags: ['Weddings', 'Anniversaries', 'Private Parties', 'Galas'],
@@ -61,14 +63,15 @@ export const Categories: React.FC = () => {
           {categories.map((cat, index) => (
             <motion.div
               key={cat.title}
+              id={cat.id}
               initial={{ opacity: 0, y: 50 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               className="group relative h-[600px] rounded-3xl overflow-hidden cursor-pointer"
             >
               {/* Background Image */}
               <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{ backgroundImage: `url(${cat.image})` }}
               />
               {/* Overlay */}

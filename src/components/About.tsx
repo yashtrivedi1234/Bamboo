@@ -34,15 +34,15 @@ export const About: React.FC = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        staggerChildren: 0.2,
+        duration: 0.4,
+        staggerChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
 
   return (
@@ -90,7 +90,7 @@ export const About: React.FC = () => {
           transition={{ duration: 1 }}
           className="relative aspect-[4/5] md:aspect-square overflow-hidden rounded-2xl group"
         >
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2062&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 group-hover:scale-110" />
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2062&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-accent-green/10 mix-blend-overlay" />
           <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent-green/20 blur-3xl rounded-full" />
         </motion.div>

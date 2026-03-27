@@ -75,7 +75,7 @@ export const Hero: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center"
         >
           <span className="text-accent-green text-[10px] font-bold tracking-[1em] uppercase block mb-1">Bamboo</span>
@@ -96,15 +96,15 @@ export const Hero: React.FC = () => {
         >
           <motion.div 
             style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[2.5s] ease-out" 
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[1.5s] ease-out" 
           />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-1000" />
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500" />
           
           <div className="relative h-full w-full md:w-1/2 flex flex-col justify-center p-8 md:p-24 z-30">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             >
               <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">01 / CORPORATE</span>
               <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
@@ -117,7 +117,7 @@ export const Hero: React.FC = () => {
                 className="flex items-center space-x-4 text-white group/btn"
                 whileHover={{ x: 10 }}
               >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-500">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-300">
                   <ArrowRight size={18} className="group-hover/btn:text-black transition-colors" />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-widest">Explore Precision</span>
@@ -138,15 +138,15 @@ export const Hero: React.FC = () => {
         >
           <motion.div 
             style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[2.5s] ease-out" 
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[1.5s] ease-out" 
           />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-1000" />
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500" />
 
           <div className="relative h-full w-full md:w-1/2 md:ml-auto flex flex-col justify-center items-start md:items-end p-8 md:p-24 z-30 text-left md:text-right">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
               <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">02 / PRIVATE</span>
               <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">

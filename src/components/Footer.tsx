@@ -90,12 +90,49 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Section: Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-8 text-[10px] uppercase tracking-widest text-white/20 font-medium">
-          <span>&copy; {currentYear} Bamboo Groves. All Rights Reserved.</span>
-          <div className="flex space-x-8">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 pt-8 text-[10px] uppercase tracking-widest font-medium">
+          <div className="flex flex-col md:flex-row items-center gap-4 text-white/20">
+            <span>&copy; {currentYear} Bamboo Groves. All Rights Reserved.</span>
+            <div className="hidden md:block w-[1px] h-3 bg-white/10" />
+            <div className="flex space-x-8">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            </div>
           </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="flex flex-col items-center md:items-end gap-3 p-4 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:border-accent-green/30 hover:bg-white/[0.04] transition-all duration-300 group"
+          >
+            <span className="text-white/30 text-[9px] uppercase tracking-[0.2em] font-bold">Design and Developed by</span>
+            <a 
+              href="https://codecrafter.in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-3"
+            >
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-1">
+                  <span className="text-white group-hover:text-accent-green transition-colors text-sm font-black tracking-tighter">
+                    CODE
+                  </span>
+                  <span className="text-accent-green group-hover:text-white transition-colors text-sm font-black tracking-tighter">
+                    CRAFTER
+                  </span>
+                </div>
+                <span className="text-[7px] text-white/50 tracking-[0.4em] -mt-1 font-bold">WEB SOLUTIONS</span>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center group-hover:border-accent-green group-hover:shadow-[0_0_20px_rgba(0,255,153,0.2)] transition-all duration-300">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-accent-green">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </a>
+          </motion.div>
         </div>
       </div>
 

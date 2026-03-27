@@ -81,7 +81,7 @@ export const Portfolio: React.FC = () => {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.8, ease: "easeOut" } 
+      transition: { duration: 0.4, ease: "easeOut" } 
     },
   };
 
@@ -137,7 +137,7 @@ export const Portfolio: React.FC = () => {
             >
               {/* Image with Filter */}
               <div 
-                className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-400 ease-out"
                 style={{ backgroundImage: `url(${item.image})` }}
               />
               
