@@ -83,15 +83,13 @@ export default function App() {
         <>
           <Navbar />
           <SmoothScroll>
-            <main>
-              <Hero />
-              <About />
-              <Services />
-              <Categories />
-              <Portfolio />
-              <Testimonials />
-              <Footer />
-            </main>
+            <Hero />
+            <About />
+            <Services />
+            <Categories />
+            <Portfolio />
+            <Testimonials />
+            <Footer />
           </SmoothScroll>
         </>
       )}

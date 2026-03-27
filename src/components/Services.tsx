@@ -17,10 +17,25 @@ export const Services: React.FC = () => {
   const controls = useAnimation();
 
   useEffect(() => {
-    if (isInView) {
-      controls.start('visible');
-    }
-  }, [isInView, controls]);
+    const handleScroll = (e: any) => {
+      if (!ref.current) return;
+      const rect = (ref.current as HTMLElement).getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8) {
+        controls.start('visible');
+      }
+    };
+
+    window.addEventListener('loco-scroll', handleScroll as EventListener);
+    // Trigger once initially
+    setTimeout(() => {
+      const rect = (ref.current as any)?.getBoundingClientRect();
+      if (rect && rect.top < window.innerHeight) {
+        controls.start('visible');
+      }
+    }, 100);
+
+    return () => window.removeEventListener('loco-scroll', handleScroll as EventListener);
+  }, [controls]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -38,7 +53,7 @@ export const Services: React.FC = () => {
   };
 
   return (
-    <section id="services" className="relative py-24 px-6 md:px-24 bg-[#050505] overflow-hidden">
+    <section id="services" className="relative py-24 px-6 md:px-24 bg-[#050505] overflow-hidden" data-scroll-section>
       <div className="max-w-7xl mx-auto flex flex-col space-y-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">

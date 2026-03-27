@@ -60,7 +60,7 @@ export const Hero: React.FC = () => {
   );
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black">
+    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black" data-scroll-section>
       {/* Three.js Background Layer */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 1] }}>

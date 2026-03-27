@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden border-t border-white/10">
+    <footer id="contact" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden border-t border-white/10" data-scroll-section>
       <div className="max-w-7xl mx-auto flex flex-col space-y-24">
         {/* Top Section: CTA */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">

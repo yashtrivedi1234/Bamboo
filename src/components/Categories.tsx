@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useTransform, useMotionValue } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { useLocoScroll } from './SmoothScroll';
 
 const categories = [
   {
@@ -18,16 +19,29 @@ const categories = [
 ];
 
 export const Categories: React.FC = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollY } = useLocoScroll();
+  const [isVisible, setIsVisible] = useState(false);
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('loco-scroll', handleScroll);
+    setTimeout(handleScroll, 100);
+    return () => window.removeEventListener('loco-scroll', handleScroll);
+  }, []);
+
+  // Parallax effect using the scrollY from context
+  const y = useTransform(scrollY || useMotionValue(0), [0, 5000], [0, -500]);
 
   return (
-    <section ref={containerRef} className="relative py-24 px-6 md:px-24 bg-black overflow-hidden">
+    <section ref={containerRef} className="relative py-24 px-6 md:px-24 bg-black overflow-hidden" data-scroll-section>
       <div className="max-w-7xl mx-auto flex flex-col space-y-16">
         {/* Header */}
         <div className="flex flex-col space-y-4">
@@ -48,7 +62,7 @@ export const Categories: React.FC = () => {
             <motion.div
               key={cat.title}
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.2 }}
               className="group relative h-[600px] rounded-3xl overflow-hidden cursor-pointer"
             >

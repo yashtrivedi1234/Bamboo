@@ -8,20 +8,27 @@ export const Navbar: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentProgress = window.scrollY / totalScroll;
-      setScrollProgress(currentProgress);
+    const handleScroll = (e: any) => {
+      const scroll = e.detail.scroll;
+      const limit = e.detail.limit;
+      const progress = limit.y > 0 ? scroll.y / limit.y : 0;
+      setScrollProgress(progress);
 
-      if (window.scrollY > 100) {
+      // Hide navbar in hero section (top of the page)
+      if (scroll.y > 100) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('loco-scroll', handleScroll as EventListener);
+    return () => window.removeEventListener('loco-scroll', handleScroll as EventListener);
+  }, []);
+
+  // Ensure navbar is hidden initially at the top
+  useEffect(() => {
+    setIsVisible(false);
   }, []);
 
   const navLinks = [

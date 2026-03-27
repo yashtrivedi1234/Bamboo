@@ -38,8 +38,13 @@ export const Portfolio: React.FC = () => {
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-60%']);
 
   return (
-    <section id="portfolio" className="relative h-[300vh] bg-[#050505]" ref={targetRef}>
-      <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-32 pb-12">
+    <section id="portfolio" className="relative h-[300vh] bg-[#050505]" ref={targetRef} data-scroll-section>
+      <div 
+        className="sticky top-0 h-screen flex flex-col overflow-hidden pt-32 pb-12"
+        data-scroll
+        data-scroll-sticky
+        data-scroll-target="#portfolio"
+      >
         {/* Header Section */}
         <div className="px-6 md:px-24 flex flex-col space-y-4 mb-12 relative z-10">
           <div className="flex items-center space-x-4">

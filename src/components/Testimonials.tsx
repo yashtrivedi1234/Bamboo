@@ -30,7 +30,7 @@ export const Testimonials: React.FC = () => {
   const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   return (
-    <section id="testimonials" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden border-t border-white/5">
+    <section id="testimonials" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden border-t border-white/5" data-scroll-section>
       <div className="max-w-7xl mx-auto flex flex-col space-y-16">
         {/* Header */}
         <div className="flex flex-col items-center text-center space-y-4">
