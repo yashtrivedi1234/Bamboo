@@ -95,94 +95,115 @@ export const Portfolio: React.FC = () => {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.4, ease: "easeOut" } 
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } 
     },
   };
 
   return (
     <section 
       id="portfolio" 
-      className="relative py-32 px-6 md:px-24 bg-black overflow-hidden" 
+      className="relative py-40 px-6 md:px-24 bg-black overflow-hidden" 
       ref={sectionRef} 
       data-scroll-section
     >
-      <div className="max-w-7xl mx-auto flex flex-col space-y-20">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-[1px] bg-accent-green" />
-              <span className="text-accent-green text-xs uppercase tracking-[0.3em] font-bold">
-                Our Masterpieces
+      {/* Background Grid - Technical Feel */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+      />
+
+      <div className="max-w-7xl mx-auto flex flex-col space-y-32">
+        {/* Header Section - Editorial Style */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+          <div className="lg:col-span-8 flex flex-col space-y-8">
+            <div className="flex items-center space-x-6">
+              <div className="w-16 h-[1px] bg-accent-green" />
+              <span className="text-accent-green text-[10px] uppercase tracking-[1em] font-black">
+                Archive_v2.4
               </span>
             </div>
-            <h2 className="text-5xl md:text-8xl font-bold text-white tracking-tighter">
-              Selected <span className="text-accent-green italic">Works</span>.
+            <h2 className="text-6xl md:text-[10vw] font-black text-white leading-[0.8] tracking-tighter uppercase">
+              Selected <br />
+              <span className="text-accent-green italic">Works</span>.
             </h2>
           </div>
-          <div className="flex flex-col space-y-4 max-w-xs">
-            <p className="text-white/40 text-sm leading-relaxed">
-              A curated collection of our most ambitious projects, where creativity meets flawless execution.
-            </p>
-            <div className="flex items-center space-x-2 text-accent-green font-bold text-xs uppercase tracking-widest cursor-pointer group">
+          <div className="lg:col-span-4 flex flex-col space-y-6">
+            <div className="flex flex-col space-y-2">
+              <span className="text-white/20 text-[10px] font-mono uppercase tracking-widest">System_Status: Optimal</span>
+              <p className="text-white/40 text-xs uppercase tracking-[0.3em] leading-relaxed">
+                A curated collection of our most ambitious projects, where creativity meets flawless execution.
+              </p>
+            </div>
+            <motion.div 
+              whileHover={{ x: 10 }}
+              className="flex items-center space-x-4 text-accent-green font-black text-[10px] uppercase tracking-[0.5em] cursor-pointer group"
+            >
               <span>View Full Archive</span>
               <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Masonry Grid */}
+        {/* Masonry Grid - Dynamic Layout */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"
+          className="columns-1 md:columns-2 lg:columns-3 gap-12 space-y-12"
         >
           {portfolioItems.map((item, index) => (
             <motion.div
               key={item.title}
               variants={itemVariants}
-              className="relative rounded-[32px] overflow-hidden group cursor-none break-inside-avoid mb-8"
+              className="relative group cursor-pointer break-inside-avoid mb-12"
             >
-              {/* Image with Aspect Ratio */}
-              <div className={`relative w-full overflow-hidden ${
+              {/* Image Container */}
+              <div className={`relative w-full overflow-hidden rounded-sm ${
                 item.size === 'large' ? 'aspect-[4/5]' : 
                 item.size === 'tall' ? 'aspect-[2/3]' : 
                 item.size === 'wide' ? 'aspect-[16/9]' : 
                 'aspect-square'
               }`}>
                 <div 
-                  className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out"
+                  className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
                   style={{ backgroundImage: `url(${item.image})` }}
                 />
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500" />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-700" />
                 
-                {/* Content */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                {/* Content Overlay */}
+                <div className="absolute inset-0 p-10 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
                   <div className="flex justify-between items-start">
-                    <span className="px-4 py-1.5 rounded-full border border-white/30 text-[10px] uppercase tracking-widest text-white font-bold backdrop-blur-md bg-white/10">
+                    <span className="px-4 py-2 rounded-full border border-white/20 text-[10px] uppercase tracking-[0.3em] text-white font-black backdrop-blur-xl bg-white/5">
                       {item.category}
                     </span>
-                    <div className="w-12 h-12 rounded-full bg-accent-green flex items-center justify-center text-black shadow-xl shadow-accent-green/20">
-                      <Plus size={24} />
+                    <div className="w-14 h-14 rounded-full bg-accent-green flex items-center justify-center text-black shadow-2xl shadow-accent-green/40">
+                      <Plus size={28} />
                     </div>
                   </div>
                   
-                  <div className="flex flex-col space-y-2">
-                    <span className="text-accent-green text-[10px] font-black uppercase tracking-[0.3em]">{item.year}</span>
-                    <h3 className="text-3xl font-bold text-white leading-tight tracking-tight">
+                  <div className="flex flex-col space-y-3">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-8 h-[1px] bg-accent-green" />
+                      <span className="text-accent-green text-[10px] font-black uppercase tracking-[0.5em]">{item.year}</span>
+                    </div>
+                    <h3 className="text-4xl font-black text-white uppercase tracking-tighter leading-none">
                       {item.title}
                     </h3>
                   </div>
                 </div>
 
-                {/* Static Info (Visible when not hovered) */}
-                <div className="absolute bottom-8 left-8 group-hover:opacity-0 transition-opacity duration-300">
-                  <div className="flex flex-col space-y-1">
-                    <div className="w-8 h-[1px] bg-accent-green mb-2" />
-                    <h3 className="text-sm font-bold text-white uppercase tracking-[0.2em]">
+                {/* Technical Micro-Details (Visible when not hovered) */}
+                <div className="absolute top-6 right-6 group-hover:opacity-0 transition-opacity duration-500">
+                  <span className="text-white/20 text-[10px] font-mono tracking-widest">
+                    [ PROJECT_ID: 0{index + 1} ]
+                  </span>
+                </div>
+                
+                <div className="absolute bottom-10 left-10 group-hover:opacity-0 transition-opacity duration-500">
+                  <div className="flex flex-col space-y-2">
+                    <div className="w-12 h-[1px] bg-accent-green" />
+                    <h3 className="text-xs font-black text-white uppercase tracking-[0.4em]">
                       {item.title}
                     </h3>
                   </div>
@@ -193,8 +214,12 @@ export const Portfolio: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent-green/5 to-transparent pointer-events-none" />
+      {/* Decorative Technical Elements */}
+      <div className="absolute bottom-12 right-12 flex flex-col items-end space-y-2 opacity-20 pointer-events-none">
+        <span className="text-[10px] font-mono text-white tracking-[0.5em] uppercase">Lat: 26.8467° N</span>
+        <span className="text-[10px] font-mono text-white tracking-[0.5em] uppercase">Long: 80.9462° E</span>
+        <div className="w-32 h-[1px] bg-white/40" />
+      </div>
     </section>
   );
 };

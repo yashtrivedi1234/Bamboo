@@ -14,157 +14,140 @@ const locations = [
 export const Services: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    const handleScroll = (e: any) => {
-      if (!ref.current) return;
-      const rect = (ref.current as HTMLElement).getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.8) {
-        controls.start('visible');
-      }
-    };
-
-    window.addEventListener('loco-scroll', handleScroll as EventListener);
-    // Trigger once initially
-    setTimeout(() => {
-      const rect = (ref.current as any)?.getBoundingClientRect();
-      if (rect && rect.top < window.innerHeight) {
-        controls.start('visible');
-      }
-    }, 100);
-
-    return () => window.removeEventListener('loco-scroll', handleScroll as EventListener);
-  }, [controls]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-  };
 
   return (
-    <section id="services" className="relative py-24 px-6 md:px-24 bg-[#050505] overflow-hidden" data-scroll-section>
-      <div className="max-w-7xl mx-auto flex flex-col space-y-16">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-[1px] bg-accent-green" />
-              <span className="text-accent-green text-xs uppercase tracking-[0.3em] font-bold">
-                Pan India Presence
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white">
-              Where We Create <span className="text-accent-green italic">Experiences</span>.
-            </h2>
+    <section id="services" className="relative py-32 px-6 md:px-24 bg-[#050505] overflow-hidden" data-scroll-section>
+      {/* Visible Grid Structure */}
+      <div className="absolute inset-0 border-x border-white/5 mx-6 md:mx-24 pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto flex flex-col space-y-24 relative z-10">
+        {/* Header - Editorial Style */}
+        <div className="flex flex-col space-y-8 max-w-4xl">
+          <div className="flex items-center space-x-6">
+            <div className="w-16 h-[1px] bg-accent-green" />
+            <span className="text-accent-green text-[10px] uppercase tracking-[1em] font-black">
+              Global Operations
+            </span>
           </div>
-          <p className="text-white/40 text-sm uppercase tracking-widest max-w-xs font-medium">
-            From the royal courts of Lucknow to the high-rises of Mumbai, we bring luxury everywhere.
-          </p>
+          <h2 className="text-6xl md:text-[10vw] font-black text-white leading-[0.8] tracking-tighter uppercase">
+            Pan India <br />
+            <span className="text-accent-green italic">Network</span>.
+          </h2>
+          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
+            <p className="text-white/40 text-xs uppercase tracking-[0.3em] max-w-sm leading-relaxed font-mono">
+              [SYSTEM_CHECK: ALL_HUBS_OPERATIONAL]
+              <br />
+              From the royal courts of Lucknow to the high-rises of Mumbai, we bring luxury everywhere.
+            </p>
+            <div className="hidden md:block h-12 w-[1px] bg-white/10" />
+            <div className="flex space-x-4">
+              <div className="flex flex-col">
+                <span className="text-white font-black text-2xl tracking-tighter">06</span>
+                <span className="text-[8px] text-white/20 uppercase tracking-widest">Major Hubs</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white font-black text-2xl tracking-tighter">24/7</span>
+                <span className="text-[8px] text-white/20 uppercase tracking-widest">Support</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Content Grid - Dashboard Style */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-white/10">
           {/* Left: Map/Visual representation */}
-          <div className="relative aspect-square md:aspect-video lg:aspect-square bg-white/5 rounded-3xl overflow-hidden border border-white/10 group">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-20 grayscale transition-transform duration-1000 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-br from-accent-green/20 via-transparent to-black/80" />
+          <div className="lg:col-span-7 relative h-[500px] lg:h-auto overflow-hidden border-r border-white/10 group">
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-10 grayscale transition-transform duration-[2s] group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-br from-accent-green/10 via-transparent to-black" />
             
-            {/* Animated Location Markers */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full h-full">
-                {/* Simulated Map Markers */}
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-                  className="absolute top-1/4 left-1/3 w-4 h-4 rounded-full bg-accent-green shadow-[0_0_20px_#88AB32]"
-                />
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ repeat: Infinity, duration: 3, delay: 0.5 }}
-                  className="absolute top-1/2 left-1/4 w-3 h-3 rounded-full bg-accent-green shadow-[0_0_20px_#88AB32]"
-                />
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ repeat: Infinity, duration: 3, delay: 1 }}
-                  className="absolute bottom-1/3 right-1/4 w-3 h-3 rounded-full bg-accent-green shadow-[0_0_20px_#88AB32]"
-                />
+            {/* Simulated Data Overlay */}
+            <div className="absolute inset-0 p-12 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col space-y-1">
+                  <span className="text-[10px] font-mono text-accent-green uppercase tracking-widest">Active_Nodes</span>
+                  <div className="flex space-x-1">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                      <div key={i} className="w-1 h-4 bg-accent-green/40" />
+                    ))}
+                  </div>
+                </div>
+                <Globe size={24} className="text-white/20 animate-pulse" />
               </div>
-            </div>
 
-            <div className="absolute bottom-8 left-8 flex flex-col space-y-2">
-              <div className="flex items-center space-x-2 text-white/80 text-xs uppercase tracking-widest font-bold">
-                <Globe size={14} className="text-accent-green" />
-                <span>Operating Across India</span>
+              <div className="relative w-full h-64 border border-white/5 rounded-sm bg-black/40 backdrop-blur-sm p-4">
+                <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-accent-green shadow-[0_0_15px_#88AB32] animate-ping" />
+                <div className="absolute top-1/2 left-1/4 w-2 h-2 rounded-full bg-accent-green shadow-[0_0_15px_#88AB32] animate-ping delay-700" />
+                <div className="absolute bottom-1/3 right-1/4 w-2 h-2 rounded-full bg-accent-green shadow-[0_0_15px_#88AB32] animate-ping delay-1000" />
+                
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                  <div className="flex flex-col">
+                    <span className="text-[8px] font-mono text-white/40 uppercase">Current_Focus</span>
+                    <span className="text-xs font-black text-white uppercase tracking-widest">Lucknow_HQ</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[8px] font-mono text-white/40 uppercase">Signal_Strength</span>
+                    <span className="text-xs font-black text-accent-green uppercase tracking-widest">Optimal</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-white/40 text-[10px] uppercase tracking-widest">
-                Seamless Logistics. Local Expertise. Global Standards.
-              </p>
             </div>
           </div>
 
-          {/* Right: Location List */}
-          <motion.div
-            ref={ref}
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-8"
-          >
-            {locations.map((loc) => (
+          {/* Right: Location List - Data Rows */}
+          <div className="lg:col-span-5 flex flex-col divide-y divide-white/10">
+            {locations.map((loc, index) => (
               <motion.div
                 key={loc.name}
-                variants={itemVariants}
-                className="flex flex-col space-y-2 p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-accent-green/30 transition-all duration-300 group"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="group flex items-center justify-between p-8 hover:bg-accent-green transition-all duration-500 cursor-crosshair"
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-white text-xl font-bold group-hover:text-accent-green transition-colors">
+                <div className="flex flex-col space-y-1">
+                  <span className="text-[8px] font-mono text-white/20 group-hover:text-black/40 uppercase tracking-widest">
+                    ID: BG_0{index + 1}
+                  </span>
+                  <span className="text-2xl font-black text-white group-hover:text-black transition-colors uppercase tracking-tighter">
                     {loc.name}
                   </span>
-                  <MapPin size={16} className="text-accent-green opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <span className="text-accent-green text-[10px] uppercase tracking-widest font-bold">
-                  {loc.status}
-                </span>
-                <span className="text-white/30 text-[9px] font-mono tracking-tighter">
-                  {loc.coords}
-                </span>
+                <div className="text-right flex flex-col space-y-1">
+                  <span className="text-accent-green text-[10px] uppercase tracking-widest font-black group-hover:text-black transition-colors">
+                    {loc.status}
+                  </span>
+                  <span className="text-white/20 text-[8px] font-mono tracking-tighter group-hover:text-black/40">
+                    {loc.coords}
+                  </span>
+                </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
-        {/* Feature Highlights */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-16">
+        {/* Technical Footer Details */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pt-12 border-t border-white/10">
           <div className="flex flex-col space-y-4">
-            <Zap size={32} className="text-accent-green" />
-            <h3 className="text-white text-lg font-bold uppercase tracking-widest">Rapid Execution</h3>
-            <p className="text-white/40 text-sm leading-relaxed">
-              Our pan-India network allows us to mobilize resources quickly, ensuring your event is executed flawlessly regardless of the location.
+            <span className="text-[10px] font-black text-accent-green uppercase tracking-[0.3em]">Precision</span>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+              Rapid mobilization of resources across all major metropolitan hubs.
             </p>
           </div>
           <div className="flex flex-col space-y-4">
-            <Shield size={32} className="text-accent-green" />
-            <h3 className="text-white text-lg font-bold uppercase tracking-widest">Premium Quality</h3>
-            <p className="text-white/40 text-sm leading-relaxed">
-              We maintain a rigorous standard of luxury and professionalism across all regions, ensuring a consistent Bamboo Groves experience.
+            <span className="text-[10px] font-black text-accent-green uppercase tracking-[0.3em]">Quality</span>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+              Standardized luxury protocols maintained globally.
             </p>
           </div>
           <div className="flex flex-col space-y-4">
-            <Globe size={32} className="text-accent-green" />
-            <h3 className="text-white text-lg font-bold uppercase tracking-widest">Local Insight</h3>
-            <p className="text-white/40 text-sm leading-relaxed">
-              We combine our global design standards with deep local insights to create culturally resonant and logistically sound events.
+            <span className="text-[10px] font-black text-accent-green uppercase tracking-[0.3em]">Logistics</span>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+              End-to-end management from concept to execution.
+            </p>
+          </div>
+          <div className="flex flex-col space-y-4">
+            <span className="text-[10px] font-black text-accent-green uppercase tracking-[0.3em]">Security</span>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+              High-stakes environment protection and protocol.
             </p>
           </div>
         </div>

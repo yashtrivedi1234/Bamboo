@@ -5,102 +5,100 @@ import { ArrowUpRight } from 'lucide-react';
 export const About: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    const handleScroll = (e: any) => {
-      if (!ref.current) return;
-      const rect = (ref.current as HTMLElement).getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.8) {
-        controls.start('visible');
-      }
-    };
-
-    window.addEventListener('loco-scroll', handleScroll as EventListener);
-    // Trigger once initially
-    setTimeout(() => {
-      const rect = (ref.current as any)?.getBoundingClientRect();
-      if (rect && rect.top < window.innerHeight) {
-        controls.start('visible');
-      }
-    }, 100);
-
-    return () => window.removeEventListener('loco-scroll', handleScroll as EventListener);
-  }, [controls]);
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  };
 
   return (
-    <section id="about" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden" data-scroll-section>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        {/* Left: Text */}
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-          className="flex flex-col space-y-8"
-        >
-          <motion.div variants={itemVariants} className="flex items-center space-x-4">
-            <div className="w-12 h-[1px] bg-accent-green" />
-            <span className="text-accent-green text-xs uppercase tracking-[0.3em] font-bold">
-              About Bamboo Groves
-            </span>
-          </motion.div>
+    <section id="about" className="relative py-32 px-6 md:px-24 bg-white text-black overflow-hidden" data-scroll-section>
+      {/* Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-6xl font-bold leading-tight text-white">
-            We Curate <span className="text-accent-green italic">Extraordinary</span> Experiences.
-          </motion.h2>
-
-          <motion.p variants={itemVariants} className="text-white/60 text-lg leading-relaxed max-w-lg">
-            Based in the heart of Lucknow, Bamboo Groves is more than an event company. We are architects of moments, designers of atmosphere, and curators of luxury. From high-stakes corporate summits to intimate private celebrations, we bring a level of precision and creativity that is unmatched.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="flex flex-col space-y-4">
-            <div className="flex items-center space-x-4 group cursor-pointer">
-              <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-accent-green group-hover:border-accent-green transition-all duration-300">
-                <ArrowUpRight size={18} className="text-white" />
-              </div>
-              <span className="text-white text-sm uppercase tracking-widest font-semibold group-hover:text-accent-green transition-colors">
-                Our Philosophy
-              </span>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Big Number & Vertical Text */}
+          <div className="lg:col-span-2 flex flex-col items-start space-y-12">
+            <motion.span 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="text-[12vw] lg:text-[8vw] font-black leading-none tracking-tighter"
+            >
+              01
+            </motion.span>
+            <div className="writing-mode-vertical-rl rotate-180 text-[10px] font-bold uppercase tracking-[1em] opacity-30">
+              Architecture of Moments
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
 
-        {/* Right: Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="relative aspect-[4/5] md:aspect-square overflow-hidden rounded-2xl group"
-        >
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2062&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-500 group-hover:scale-110" />
-          <div className="absolute inset-0 bg-accent-green/10 mix-blend-overlay" />
-          <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent-green/20 blur-3xl rounded-full" />
-        </motion.div>
-      </div>
+          {/* Middle Column: Main Content */}
+          <div className="lg:col-span-6 flex flex-col space-y-12">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex flex-col space-y-8"
+            >
+              <h2 className="text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase">
+                We Curate <br />
+                <span className="text-accent-green italic">Extraordinary</span> <br />
+                Experiences.
+              </h2>
+              
+              <div className="w-24 h-2 bg-black" />
+              
+              <p className="text-xl md:text-2xl font-medium leading-tight max-w-xl">
+                Based in the heart of Lucknow, Bamboo Groves is more than an event company. We are architects of moments, designers of atmosphere, and curators of luxury.
+              </p>
+              
+              <p className="text-black/60 text-lg leading-relaxed max-w-lg">
+                From high-stakes corporate summits to intimate private celebrations, we bring a level of precision and creativity that is unmatched in the industry.
+              </p>
+            </motion.div>
 
-      {/* Background Text */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 opacity-[0.02] pointer-events-none select-none">
-        <span className="text-[20vw] font-black uppercase tracking-tighter text-white">
-          LUCKNOW
-        </span>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="grid grid-cols-2 gap-8 py-12 border-y border-black/10"
+            >
+              <div>
+                <span className="block text-4xl font-black tracking-tighter">150+</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">Events Executed</span>
+              </div>
+              <div>
+                <span className="block text-4xl font-black tracking-tighter">10+</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">Years Experience</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Graphic Image */}
+          <div className="lg:col-span-4 relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1 }}
+              className="relative aspect-[3/4] overflow-hidden rounded-sm border-[12px] border-black shadow-[20px_20px_0px_0px_#88AB32]"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2062&auto=format&fit=crop" 
+                alt="About"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+            
+            {/* Floating Badge */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent-green rounded-full flex items-center justify-center p-4 text-center"
+            >
+              <span className="text-[10px] font-black uppercase tracking-tighter leading-none text-black">
+                Luxury • Precision • Creativity •
+              </span>
+            </motion.div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

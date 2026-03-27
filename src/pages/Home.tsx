@@ -8,6 +8,8 @@ import { GrowWithUs } from '../components/GrowWithUs';
 import { Testimonials } from '../components/Testimonials';
 import { motion } from 'motion/react';
 
+import { Marquee } from '../components/Marquee';
+
 export const Home: React.FC = () => {
   return (
     <motion.div
@@ -17,9 +19,11 @@ export const Home: React.FC = () => {
       transition={{ duration: 0.3 }}
     >
       <Hero />
+      <Marquee text="Luxury Events • Corporate Excellence • Private Soirées • Architectural Precision" speed={30} className="text-white/20" />
       <About />
-      <Services />
       <Categories />
+      <Marquee text="BAMBOO GROVES • LUCKNOW • EST 2024 • BEYOND EVENTS" speed={40} direction="right" className="bg-accent-green !text-black border-none" />
+      <Services />
       <Portfolio />
       <GrowWithUs />
       <Testimonials />

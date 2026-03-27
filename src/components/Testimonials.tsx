@@ -30,78 +30,105 @@ export const Testimonials: React.FC = () => {
   const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   return (
-    <section id="testimonials" className="relative py-24 px-6 md:px-24 bg-black overflow-hidden border-t border-white/5" data-scroll-section>
-      <div className="max-w-7xl mx-auto flex flex-col space-y-16">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center space-y-4">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-[1px] bg-accent-green" />
-            <span className="text-accent-green text-xs uppercase tracking-[0.3em] font-bold">
-              Testimonials
+    <section id="testimonials" className="relative py-40 px-6 md:px-24 bg-black overflow-hidden border-t border-white/5" data-scroll-section>
+      {/* Atmospheric Background - Layered Gradients */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent-green/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent-green/10 rounded-full blur-[150px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto flex flex-col space-y-24 relative z-10">
+        {/* Header - Editorial Style */}
+        <div className="flex flex-col items-center text-center space-y-8">
+          <div className="flex items-center space-x-6">
+            <div className="w-16 h-[1px] bg-accent-green" />
+            <span className="text-accent-green text-[10px] uppercase tracking-[1em] font-black">
+              Voices of Trust
             </span>
-            <div className="w-12 h-[1px] bg-accent-green" />
+            <div className="w-16 h-[1px] bg-accent-green" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white">
-            What Our <span className="text-accent-green italic">Clients</span> Say.
+          <h2 className="text-6xl md:text-[8vw] font-black text-white leading-[0.8] tracking-tighter uppercase">
+            What Our <br />
+            <span className="text-accent-green italic">Clients</span> Say.
           </h2>
         </div>
 
-        {/* Content Slider */}
-        <div className="relative flex flex-col items-center justify-center min-h-[400px]">
+        {/* Content Slider - Glassmorphism */}
+        <div className="relative flex flex-col items-center justify-center min-h-[500px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col items-center text-center space-y-8 max-w-3xl"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.1, y: -20 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center text-center space-y-12 max-w-4xl p-12 md:p-20 rounded-[40px] border border-white/10 bg-white/[0.02] backdrop-blur-3xl shadow-2xl"
             >
-              <Quote size={48} className="text-accent-green opacity-20" />
-              <p className="text-xl md:text-3xl font-medium text-white/80 leading-relaxed italic">
+              <Quote size={64} className="text-accent-green opacity-30" />
+              
+              <p className="text-2xl md:text-4xl font-black text-white leading-[1.1] tracking-tight uppercase italic">
                 "{testimonials[currentIndex].text}"
               </p>
               
-              <div className="flex flex-col items-center space-y-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-accent-green/30">
-                  <img 
-                    src={testimonials[currentIndex].image} 
-                    alt={testimonials[currentIndex].name}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
+              <div className="flex flex-col items-center space-y-6">
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border border-accent-green/30 p-1">
+                    <img 
+                      src={testimonials[currentIndex].image} 
+                      alt={testimonials[currentIndex].name}
+                      className="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all duration-700"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-accent-green flex items-center justify-center text-black">
+                    <Quote size={14} />
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-white font-bold uppercase tracking-widest">{testimonials[currentIndex].name}</span>
-                  <span className="text-accent-green text-[10px] uppercase tracking-widest font-bold">{testimonials[currentIndex].role}</span>
+                
+                <div className="flex flex-col space-y-1">
+                  <span className="text-white text-xl font-black uppercase tracking-tighter">{testimonials[currentIndex].name}</span>
+                  <span className="text-accent-green text-[10px] uppercase tracking-[0.5em] font-black">{testimonials[currentIndex].role}</span>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Controls */}
-          <div className="absolute bottom-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 w-full flex justify-between px-4 md:px-0 pointer-events-none">
-            <button 
+          {/* Navigation Controls - Minimalist */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 md:-px-12 pointer-events-none">
+            <motion.button 
               onClick={prev}
-              className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-accent-green hover:border-accent-green transition-all pointer-events-auto group"
+              whileHover={{ x: -10 }}
+              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-accent-green hover:border-accent-green transition-all pointer-events-auto group backdrop-blur-xl"
             >
-              <ChevronLeft size={24} className="group-hover:text-black transition-colors" />
-            </button>
-            <button 
+              <ChevronLeft size={32} className="group-hover:text-black transition-colors" />
+            </motion.button>
+            <motion.button 
               onClick={next}
-              className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-accent-green hover:border-accent-green transition-all pointer-events-auto group"
+              whileHover={{ x: 10 }}
+              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-accent-green hover:border-accent-green transition-all pointer-events-auto group backdrop-blur-xl"
             >
-              <ChevronRight size={24} className="group-hover:text-black transition-colors" />
-            </button>
+              <ChevronRight size={32} className="group-hover:text-black transition-colors" />
+            </motion.button>
           </div>
         </div>
 
-        {/* Background Text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.01] pointer-events-none select-none">
-          <span className="text-[25vw] font-black uppercase tracking-tighter text-white">
-            VOICES
-          </span>
+        {/* Progress Indicators */}
+        <div className="flex justify-center space-x-4">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-1 transition-all duration-500 rounded-full ${currentIndex === index ? 'w-12 bg-accent-green' : 'w-4 bg-white/10 hover:bg-white/30'}`}
+            />
+          ))}
         </div>
+      </div>
+
+      {/* Background Text Overlay */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.01] pointer-events-none select-none">
+        <span className="text-[30vw] font-black uppercase tracking-tighter text-white">
+          VOICES
+        </span>
       </div>
     </section>
   );

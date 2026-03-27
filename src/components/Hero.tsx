@@ -32,7 +32,6 @@ const Stars = (props: any) => {
 };
 
 export const Hero: React.FC = () => {
-  const [hoveredSide, setHoveredSide] = useState<'corporate' | 'private' | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -40,29 +39,14 @@ export const Hero: React.FC = () => {
     offset: ["start start", "end start"]
   });
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  
-  const springConfig = { damping: 40, stiffness: 80, mass: 1 };
-  const splitPos = useSpring(50, springConfig);
-
-  useEffect(() => {
-    if (hoveredSide === 'corporate') splitPos.set(70);
-    else if (hoveredSide === 'private') splitPos.set(30);
-    else splitPos.set(50);
-  }, [hoveredSide, splitPos]);
-
-  // Derive smooth strings for width and clipPath
-  const leftClipPath = useTransform(splitPos, (val) => 
-    `polygon(0 0, ${val + 10}% 0, ${val - 10}% 100%, 0 100%)`
-  );
-  const rightClipPath = useTransform(splitPos, (val) => 
-    `polygon(${val + 10}% 0, 100% 0, 100% 100%, ${val - 10}% 100%)`
-  );
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black" data-scroll-section>
-      {/* Three.js Background Layer */}
-      <div className="absolute inset-0 z-0">
+    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center" data-scroll-section>
+      {/* Three.js Background Layer - More Subtle */}
+      <div className="absolute inset-0 z-0 opacity-40">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <Suspense fallback={null}>
             <Stars />
@@ -70,106 +54,81 @@ export const Hero: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* Top Center Brand Identity */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center"
-        >
-          <span className="text-accent-green text-[10px] font-bold tracking-[1em] uppercase block mb-1">Bamboo</span>
-          <h1 className="text-white text-xl font-black tracking-tighter uppercase">Groves</h1>
-        </motion.div>
-      </div>
+      {/* Cinematic Background Image with Parallax */}
+      <motion.div 
+        style={{ y: backgroundY }}
+        className="absolute inset-0 z-0"
+      >
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+      </motion.div>
 
-      {/* Main Split Container */}
-      <div className="relative z-10 h-full w-full flex flex-col md:block">
-        {/* Left Side: Corporate */}
+      {/* Massive Editorial Typography */}
+      <div className="relative z-10 w-full px-6 md:px-24 flex flex-col items-center text-center">
         <motion.div
-          style={{ 
-            clipPath: typeof window !== 'undefined' && window.innerWidth >= 768 ? leftClipPath : 'none'
-          }}
-          onMouseEnter={() => setHoveredSide('corporate')}
-          onMouseLeave={() => setHoveredSide(null)}
-          className="group absolute inset-0 md:w-full h-1/2 md:h-full overflow-hidden border-b md:border-b-0 border-white/5 cursor-pointer z-20"
+          style={{ y: textY, opacity }}
+          className="flex flex-col items-center"
         >
-          <motion.div 
-            style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[1.5s] ease-out" 
-          />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500" />
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-accent-green text-[10px] md:text-xs font-bold tracking-[1em] uppercase mb-8"
+          >
+            Curating Extraordinary Experiences
+          </motion.span>
           
-          <div className="relative h-full w-full md:w-1/2 flex flex-col justify-center p-8 md:p-24 z-30">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          <div className="relative">
+            <motion.h1 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[18vw] md:text-[14vw] font-black leading-[0.8] uppercase tracking-tighter text-white mix-blend-difference"
             >
-              <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">01 / CORPORATE</span>
-              <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
-                THE <br /> <span className="text-accent-green italic">SUMMIT</span>
-              </h2>
-              <p className="text-white/60 max-w-xs text-[10px] md:text-xs uppercase tracking-widest mb-8 leading-relaxed">
-                Architecting high-impact corporate environments that define industry standards.
-              </p>
-              <motion.button 
-                className="flex items-center space-x-4 text-white group/btn"
-                whileHover={{ x: 10 }}
-              >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-300">
-                  <ArrowRight size={18} className="group-hover/btn:text-black transition-colors" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest">Explore Precision</span>
-              </motion.button>
+              BAMBOO <br />
+              <span className="text-accent-green italic">GROVES</span>
+            </motion.h1>
+            
+            {/* Overlapping Text Element */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="absolute -top-4 -left-4 md:-top-8 md:-left-8 text-[4vw] font-serif italic text-white/20 pointer-events-none"
+            >
+              Est. 2024
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Right Side: Private */}
+        {/* Call to Action */}
         <motion.div
-          style={{ 
-            clipPath: typeof window !== 'undefined' && window.innerWidth >= 768 ? rightClipPath : 'none',
-            top: typeof window !== 'undefined' && window.innerWidth < 768 ? '50%' : '0'
-          }}
-          onMouseEnter={() => setHoveredSide('private')}
-          onMouseLeave={() => setHoveredSide(null)}
-          className="group absolute inset-0 md:w-full h-1/2 md:h-full overflow-hidden cursor-pointer z-10"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16 flex flex-col items-center space-y-8"
         >
-          <motion.div 
-            style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[1.5s] ease-out" 
-          />
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500" />
-
-          <div className="relative h-full w-full md:w-1/2 md:ml-auto flex flex-col justify-center items-start md:items-end p-8 md:p-24 z-30 text-left md:text-right">
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            >
-              <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">02 / PRIVATE</span>
-              <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
-                THE <br /> <span className="text-accent-green italic">SOIRÉE</span>
-              </h2>
-              <p className="text-white/60 max-w-xs text-[10px] md:text-xs uppercase tracking-widest mb-8 leading-relaxed md:ml-auto">
-                Curating intimate, luxury milestones that resonate with personal legacy.
-              </p>
-              <motion.button 
-                className="flex items-center space-x-4 text-white group/btn md:flex-row-reverse md:space-x-reverse"
-                whileHover={{ x: typeof window !== 'undefined' && window.innerWidth >= 768 ? -10 : 10 }}
-              >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-500">
-                  <ArrowRight size={18} className="group-hover/btn:text-black transition-colors" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest">Explore Intimacy</span>
-              </motion.button>
-            </motion.div>
-          </div>
+          <p className="text-white/40 max-w-xs text-[10px] uppercase tracking-[0.4em] leading-relaxed">
+            Architects of moments, designers of atmosphere, and curators of luxury.
+          </p>
+          
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative px-12 py-5 bg-accent-green text-black font-black uppercase tracking-widest text-xs rounded-full overflow-hidden"
+          >
+            <span className="relative z-10 flex items-center space-x-4">
+              <span>Start Your Journey</span>
+              <ArrowRight size={18} />
+            </span>
+            <motion.div 
+              className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"
+            />
+          </motion.button>
         </motion.div>
       </div>
 
-      {/* Decorative Elements */}
+      {/* Decorative Corner Elements */}
       <div className="absolute top-12 left-12 z-50 hidden md:block">
         <div className="flex flex-col space-y-1">
           <span className="text-[8px] text-white/20 font-mono tracking-tighter">LAT: 26.8467° N</span>
@@ -178,10 +137,21 @@ export const Hero: React.FC = () => {
       </div>
       
       <div className="absolute bottom-12 right-12 z-50 hidden md:block">
-        <div className="text-right">
+        <div className="text-right flex flex-col space-y-2">
           <span className="text-[8px] text-white/20 font-mono tracking-tighter uppercase">Luxury Event Curators</span>
+          <div className="w-12 h-[1px] bg-white/10 ml-auto" />
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4"
+      >
+        <span className="text-[8px] text-white/40 uppercase tracking-[0.5em] vertical-text">Scroll</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-accent-green to-transparent" />
+      </motion.div>
     </section>
   );
 };
