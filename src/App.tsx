@@ -7,6 +7,7 @@ import { About } from './components/About';
 import { Services } from './components/Services';
 import { Categories } from './components/Categories';
 import { Portfolio } from './components/Portfolio';
+import { GrowWithUs } from './components/GrowWithUs';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
@@ -88,6 +89,7 @@ export default function App() {
             <Services />
             <Categories />
             <Portfolio />
+            <GrowWithUs />
             <Testimonials />
             <Footer />
           </SmoothScroll>
