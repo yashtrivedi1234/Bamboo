@@ -16,21 +16,29 @@ export const Navbar: React.FC = () => {
       const progress = limit.y > 0 ? scroll.y / limit.y : 0;
       setScrollProgress(progress);
 
-      // Hide navbar in hero section (top of the page)
-      if (scroll.y > 100) {
-        setIsVisible(true);
+      // On home page, hide navbar at the top. On other pages, keep it visible.
+      if (location.pathname === '/') {
+        if (scroll.y > 100) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
       } else {
-        setIsVisible(false);
+        setIsVisible(true);
       }
     };
 
     window.addEventListener('loco-scroll', handleScroll as EventListener);
     return () => window.removeEventListener('loco-scroll', handleScroll as EventListener);
-  }, []);
+  }, [location.pathname]);
 
-  // Ensure navbar is hidden initially at the top
+  // Set initial visibility based on path
   useEffect(() => {
-    setIsVisible(false);
+    if (location.pathname === '/') {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
   }, [location.pathname]);
 
   const navLinks = [
