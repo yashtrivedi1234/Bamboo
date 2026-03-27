@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 
@@ -6,6 +7,7 @@ export const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = (e: any) => {
@@ -29,14 +31,15 @@ export const Navbar: React.FC = () => {
   // Ensure navbar is hidden initially at the top
   useEffect(() => {
     setIsVisible(false);
-  }, []);
+  }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'About', href: '#about' },
-    { name: 'Corporate Events', href: '#corporate-events' },
-    { name: 'Social Events', href: '#social-events' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Grow With Us', href: '/grow-with-us' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -50,19 +53,21 @@ export const Navbar: React.FC = () => {
         <div className="absolute bottom-0 left-0 h-[2px] bg-accent-green w-full origin-left transition-transform duration-100" 
              style={{ transform: `scaleX(${scrollProgress})` }} 
         />
-        <div className="text-2xl font-bold tracking-tighter text-white">
+        <Link to="/" className="text-2xl font-bold tracking-tighter text-white">
           BAMBOO <span className="text-accent-green">GROVES</span>
-        </div>
+        </Link>
 
         <div className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-white/70 hover:text-accent-green transition-colors uppercase tracking-widest"
+              to={link.href}
+              className={`text-sm font-medium transition-colors uppercase tracking-widest ${
+                location.pathname === link.href ? 'text-accent-green' : 'text-white/70 hover:text-accent-green'
+              }`}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -90,14 +95,16 @@ export const Navbar: React.FC = () => {
               <X size={32} />
             </button>
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="text-3xl font-bold text-white hover:text-accent-green transition-colors uppercase tracking-widest"
+                className={`text-3xl font-bold transition-colors uppercase tracking-widest ${
+                  location.pathname === link.href ? 'text-accent-green' : 'text-white hover:text-accent-green'
+                }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </motion.div>
         )}

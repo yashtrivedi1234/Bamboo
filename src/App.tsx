@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Services } from './components/Services';
-import { Categories } from './components/Categories';
-import { Portfolio } from './components/Portfolio';
-import { GrowWithUs } from './components/GrowWithUs';
-import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
+
+// Pages
+import { Home } from './pages/Home';
+import { AboutPage } from './pages/AboutPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { PortfolioPage } from './pages/PortfolioPage';
+import { GrowWithUsPage } from './pages/GrowWithUsPage';
+import { ContactPage } from './pages/ContactPage';
 
 const NoiseOverlay = () => (
   <div className="fixed inset-0 z-[9998] pointer-events-none opacity-[0.03] mix-blend-overlay">
@@ -61,6 +63,23 @@ const LoadingScreen = () => {
   );
 };
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/grow-with-us" element={<GrowWithUsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -73,28 +92,24 @@ export default function App() {
   }, []);
 
   return (
-    <div className="bg-black text-white selection:bg-accent-green selection:text-black">
-      <CustomCursor />
-      <NoiseOverlay />
-      <AnimatePresence>
-        {isLoading && <LoadingScreen key="loader" />}
-      </AnimatePresence>
+    <Router>
+      <div className="bg-black text-white selection:bg-accent-green selection:text-black">
+        <CustomCursor />
+        <NoiseOverlay />
+        <AnimatePresence>
+          {isLoading && <LoadingScreen key="loader" />}
+        </AnimatePresence>
 
-      {!isLoading && (
-        <>
-          <Navbar />
-          <SmoothScroll>
-            <Hero />
-            <About />
-            <Services />
-            <Categories />
-            <Portfolio />
-            <GrowWithUs />
-            <Testimonials />
-            <Footer />
-          </SmoothScroll>
-        </>
-      )}
-    </div>
+        {!isLoading && (
+          <>
+            <Navbar />
+            <SmoothScroll>
+              <AnimatedRoutes />
+              <Footer />
+            </SmoothScroll>
+          </>
+        )}
+      </div>
+    </Router>
   );
 }

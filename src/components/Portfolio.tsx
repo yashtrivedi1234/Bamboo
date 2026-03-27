@@ -8,42 +8,56 @@ const portfolioItems = [
     category: 'Corporate',
     image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop',
     year: '2024',
-    size: 'large', // spans 2 columns
+    size: 'large', // 2x2
   },
   {
     title: 'The Heritage Wedding',
     category: 'Private',
     image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop',
     year: '2023',
-    size: 'tall', // spans 2 rows
+    size: 'tall', // 1x2
   },
   {
     title: 'Tech Summit 2024',
     category: 'Corporate',
     image: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2062&auto=format&fit=crop',
     year: '2024',
-    size: 'small',
+    size: 'small', // 1x1
   },
   {
     title: 'Elite Private Soiree',
     category: 'Private',
     image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop',
     year: '2023',
-    size: 'small',
+    size: 'small', // 1x1
   },
   {
     title: 'Modern Art Launch',
     category: 'Exhibition',
     image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop',
     year: '2024',
-    size: 'medium',
+    size: 'wide', // 2x1
   },
   {
     title: 'Global Logistics Meet',
     category: 'Corporate',
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop',
     year: '2023',
-    size: 'medium',
+    size: 'medium', // 1x1
+  },
+  {
+    title: 'Urban Design Expo',
+    category: 'Exhibition',
+    image: 'https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?q=80&w=2070&auto=format&fit=crop',
+    year: '2024',
+    size: 'tall', // 1x2
+  },
+  {
+    title: 'Midnight Jazz Night',
+    category: 'Private',
+    image: 'https://images.unsplash.com/photo-1514525253361-bee8718a340b?q=80&w=1974&auto=format&fit=crop',
+    year: '2023',
+    size: 'small', // 1x1
   },
 ];
 
@@ -122,17 +136,18 @@ export const Portfolio: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[300px]"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[250px] md:auto-rows-[300px]"
         >
           {portfolioItems.map((item, index) => (
             <motion.div
               key={item.title}
               variants={itemVariants}
               className={`relative rounded-3xl overflow-hidden group cursor-none
-                ${item.size === 'large' ? 'md:col-span-2 md:row-span-1' : ''}
+                ${item.size === 'large' ? 'md:col-span-2 md:row-span-2' : ''}
                 ${item.size === 'tall' ? 'md:col-span-1 md:row-span-2' : ''}
-                ${item.size === 'medium' ? 'md:col-span-2 md:row-span-1' : ''}
+                ${item.size === 'wide' ? 'md:col-span-2 md:row-span-1' : ''}
                 ${item.size === 'small' ? 'md:col-span-1 md:row-span-1' : ''}
+                ${item.size === 'medium' ? 'md:col-span-1 md:row-span-1' : ''}
               `}
             >
               {/* Image with Filter */}

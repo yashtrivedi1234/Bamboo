@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Instagram, Twitter, Facebook, Linkedin, ArrowUpRight } from 'lucide-react';
 
@@ -22,17 +23,19 @@ export const Footer: React.FC = () => {
             </h2>
           </div>
           
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative w-48 h-48 rounded-full border border-accent-green flex items-center justify-center cursor-pointer overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-accent-green translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            <div className="relative flex flex-col items-center space-y-2 text-white group-hover:text-black transition-colors duration-500">
-              <span className="text-sm font-bold uppercase tracking-widest">Get In Touch</span>
-              <ArrowUpRight size={24} />
-            </div>
-          </motion.div>
+          <Link to="/contact">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative w-48 h-48 rounded-full border border-accent-green flex items-center justify-center cursor-pointer overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-accent-green translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              <div className="relative flex flex-col items-center space-y-2 text-white group-hover:text-black transition-colors duration-500">
+                <span className="text-sm font-bold uppercase tracking-widest">Get In Touch</span>
+                <ArrowUpRight size={24} />
+              </div>
+            </motion.div>
+          </Link>
         </div>
 
         {/* Middle Section: Info */}
@@ -55,11 +58,12 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col space-y-6">
             <h4 className="text-white text-xs uppercase tracking-[0.3em] font-bold">Navigation</h4>
             <ul className="flex flex-col space-y-4">
-              <li><a href="#" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Home</a></li>
-              <li><a href="#about" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">About</a></li>
-              <li><a href="#services" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Services</a></li>
-              <li><a href="#portfolio" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Portfolio</a></li>
-              <li><a href="#grow-with-us" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Grow With Us</a></li>
+              <li><Link to="/" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Home</Link></li>
+              <li><Link to="/about" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">About</Link></li>
+              <li><Link to="/services" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Services</Link></li>
+              <li><Link to="/portfolio" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Portfolio</Link></li>
+              <li><Link to="/grow-with-us" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Grow With Us</Link></li>
+              <li><Link to="/contact" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Contact</Link></li>
             </ul>
           </div>
 
