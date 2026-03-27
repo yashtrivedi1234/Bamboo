@@ -1,4 +1,4 @@
-import React, { useRef, Suspense, useState } from 'react';
+import React, { useRef, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as random from 'maath/random/dist/maath-random.esm';
@@ -40,29 +40,28 @@ export const Hero: React.FC = () => {
     offset: ["start start", "end start"]
   });
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   
-  const springConfig = { damping: 20, stiffness: 100 };
-  const corporateWidth = useSpring(hoveredSide === 'corporate' ? 60 : hoveredSide === 'private' ? 40 : 50, springConfig);
-  const privateWidth = useSpring(hoveredSide === 'private' ? 60 : hoveredSide === 'corporate' ? 40 : 50, springConfig);
+  const springConfig = { damping: 40, stiffness: 80, mass: 1 };
+  const splitPos = useSpring(50, springConfig);
 
-  // Update springs when hoveredSide changes
-  React.useEffect(() => {
-    if (hoveredSide === 'corporate') {
-      corporateWidth.set(65);
-      privateWidth.set(35);
-    } else if (hoveredSide === 'private') {
-      corporateWidth.set(35);
-      privateWidth.set(65);
-    } else {
-      corporateWidth.set(50);
-      privateWidth.set(50);
-    }
-  }, [hoveredSide, corporateWidth, privateWidth]);
+  useEffect(() => {
+    if (hoveredSide === 'corporate') splitPos.set(70);
+    else if (hoveredSide === 'private') splitPos.set(30);
+    else splitPos.set(50);
+  }, [hoveredSide, splitPos]);
+
+  // Derive smooth strings for width and clipPath
+  const leftClipPath = useTransform(splitPos, (val) => 
+    `polygon(0 0, ${val + 10}% 0, ${val - 10}% 100%, 0 100%)`
+  );
+  const rightClipPath = useTransform(splitPos, (val) => 
+    `polygon(${val + 10}% 0, 100% 0, 100% 100%, ${val - 10}% 100%)`
+  );
 
   return (
     <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Three.js Background */}
+      {/* Three.js Background Layer */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <Suspense fallback={null}>
@@ -71,110 +70,118 @@ export const Hero: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* Split Screen Content */}
-      <div className="relative z-10 flex h-full w-full flex-col md:flex-row">
-        {/* Corporate Events */}
+      {/* Top Center Brand Identity */}
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
         <motion.div
-          style={{ width: typeof window !== 'undefined' && window.innerWidth < 768 ? '100%' : `${corporateWidth.get()}%` }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="text-center"
+        >
+          <span className="text-accent-green text-[10px] font-bold tracking-[1em] uppercase block mb-1">Bamboo</span>
+          <h1 className="text-white text-xl font-black tracking-tighter uppercase">Groves</h1>
+        </motion.div>
+      </div>
+
+      {/* Main Split Container */}
+      <div className="relative z-10 h-full w-full flex flex-col md:block">
+        {/* Left Side: Corporate */}
+        <motion.div
+          style={{ 
+            clipPath: typeof window !== 'undefined' && window.innerWidth >= 768 ? leftClipPath : 'none'
+          }}
           onMouseEnter={() => setHoveredSide('corporate')}
           onMouseLeave={() => setHoveredSide(null)}
-          className="group relative flex h-1/2 w-full cursor-pointer items-center justify-center overflow-hidden border-b border-white/10 md:h-full md:border-b-0 md:border-r"
+          className="group absolute inset-0 md:w-full h-1/2 md:h-full overflow-hidden border-b md:border-b-0 border-white/5 cursor-pointer z-20"
         >
           <motion.div 
             style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center scale-110 transition-transform duration-1000 group-hover:scale-115" 
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[2.5s] ease-out" 
           />
-          <div className="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-1000" />
           
-          <div className="relative flex flex-col items-center text-center p-8 z-30">
+          <div className="relative h-full w-full md:w-1/2 flex flex-col justify-center p-8 md:p-24 z-30">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white mb-4">
-                Corporate <span className="text-accent-green italic">Events</span>
+              <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">01 / CORPORATE</span>
+              <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
+                THE <br /> <span className="text-accent-green italic">SUMMIT</span>
               </h2>
-              <p className="text-white/60 max-w-xs text-sm uppercase tracking-widest mb-6 mx-auto">
-                Precision. Professionalism. Impact.
+              <p className="text-white/60 max-w-xs text-[10px] md:text-xs uppercase tracking-widest mb-8 leading-relaxed">
+                Architecting high-impact corporate environments that define industry standards.
               </p>
-              <motion.div 
-                className="inline-flex items-center space-x-2 text-accent-green font-semibold uppercase tracking-widest text-xs border border-accent-green/30 px-6 py-3 rounded-full hover:bg-accent-green hover:text-black transition-all"
+              <motion.button 
+                className="flex items-center space-x-4 text-white group/btn"
                 whileHover={{ x: 10 }}
               >
-                <span>Explore Corporate</span>
-                <ArrowRight size={16} />
-              </motion.div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-500">
+                  <ArrowRight size={18} className="group-hover/btn:text-black transition-colors" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-widest">Explore Precision</span>
+              </motion.button>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Private Events */}
+        {/* Right Side: Private */}
         <motion.div
-          style={{ width: typeof window !== 'undefined' && window.innerWidth < 768 ? '100%' : `${privateWidth.get()}%` }}
+          style={{ 
+            clipPath: typeof window !== 'undefined' && window.innerWidth >= 768 ? rightClipPath : 'none',
+            top: typeof window !== 'undefined' && window.innerWidth < 768 ? '50%' : '0'
+          }}
           onMouseEnter={() => setHoveredSide('private')}
           onMouseLeave={() => setHoveredSide(null)}
-          className="group relative flex h-1/2 w-full cursor-pointer items-center justify-center overflow-hidden md:h-full"
+          className="group absolute inset-0 md:w-full h-1/2 md:h-full overflow-hidden cursor-pointer z-10"
         >
           <motion.div 
             style={{ y: backgroundY }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center scale-110 transition-transform duration-1000 group-hover:scale-115" 
+            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center scale-110 group-hover:scale-125 transition-transform duration-[2.5s] ease-out" 
           />
-          <div className="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-1000" />
 
-          <div className="relative flex flex-col items-center text-center p-8 z-30">
+          <div className="relative h-full w-full md:w-1/2 md:ml-auto flex flex-col justify-center items-start md:items-end p-8 md:p-24 z-30 text-left md:text-right">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white mb-4">
-                Private <span className="text-accent-green italic">Events</span>
+              <span className="text-accent-green text-[10px] font-bold tracking-[0.5em] uppercase mb-4 block">02 / PRIVATE</span>
+              <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white mb-4 leading-none">
+                THE <br /> <span className="text-accent-green italic">SOIRÉE</span>
               </h2>
-              <p className="text-white/60 max-w-xs text-sm uppercase tracking-widest mb-6 mx-auto">
-                Intimacy. Luxury. Memories.
+              <p className="text-white/60 max-w-xs text-[10px] md:text-xs uppercase tracking-widest mb-8 leading-relaxed md:ml-auto">
+                Curating intimate, luxury milestones that resonate with personal legacy.
               </p>
-              <motion.div 
-                className="inline-flex items-center space-x-2 text-accent-green font-semibold uppercase tracking-widest text-xs border border-accent-green/30 px-6 py-3 rounded-full hover:bg-accent-green hover:text-black transition-all"
-                whileHover={{ x: 10 }}
+              <motion.button 
+                className="flex items-center space-x-4 text-white group/btn md:flex-row-reverse md:space-x-reverse"
+                whileHover={{ x: typeof window !== 'undefined' && window.innerWidth >= 768 ? -10 : 10 }}
               >
-                <span>Explore Private</span>
-                <ArrowRight size={16} />
-              </motion.div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-accent-green group-hover/btn:border-accent-green transition-all duration-500">
+                  <ArrowRight size={18} className="group-hover/btn:text-black transition-colors" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-widest">Explore Intimacy</span>
+              </motion.button>
             </motion.div>
           </div>
         </motion.div>
       </div>
 
-
-      {/* Center Logo/Tagline Overlay */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-40">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          className="text-center bg-black/20 backdrop-blur-sm p-12 rounded-full border border-white/5"
-        >
-          <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-white drop-shadow-2xl">
-            BAMBOO <span className="text-accent-green">GROVES</span>
-          </h1>
-          <p className="text-white/80 text-[10px] md:text-xs uppercase tracking-[0.8em] mt-4 font-bold">
-            Curating Extraordinary Experiences
-          </p>
-        </motion.div>
+      {/* Decorative Elements */}
+      <div className="absolute top-12 left-12 z-50 hidden md:block">
+        <div className="flex flex-col space-y-1">
+          <span className="text-[8px] text-white/20 font-mono tracking-tighter">LAT: 26.8467° N</span>
+          <span className="text-[8px] text-white/20 font-mono tracking-tighter">LNG: 80.9462° E</span>
+        </div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center"
-      >
-        <div className="w-[1px] h-12 bg-gradient-to-b from-accent-green to-transparent" />
-        <span className="text-[10px] uppercase tracking-widest text-white/40 mt-2">Scroll</span>
-      </motion.div>
+      
+      <div className="absolute bottom-12 right-12 z-50 hidden md:block">
+        <div className="text-right">
+          <span className="text-[8px] text-white/20 font-mono tracking-tighter uppercase">Luxury Event Curators</span>
+        </div>
+      </div>
     </section>
   );
 };
