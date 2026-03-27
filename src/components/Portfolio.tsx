@@ -39,9 +39,9 @@ export const Portfolio: React.FC = () => {
 
   return (
     <section id="portfolio" className="relative h-[300vh] bg-[#050505]" ref={targetRef}>
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        {/* Header Overlay */}
-        <div className="absolute top-24 left-6 md:left-24 z-10 flex flex-col space-y-4">
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-32 pb-12">
+        {/* Header Section */}
+        <div className="px-6 md:px-24 flex flex-col space-y-4 mb-12 relative z-10">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-[1px] bg-accent-green" />
             <span className="text-accent-green text-xs uppercase tracking-[0.3em] font-bold">
@@ -54,45 +54,47 @@ export const Portfolio: React.FC = () => {
         </div>
 
         {/* Horizontal Scroll Gallery */}
-        <motion.div style={{ x }} className="flex space-x-12 px-6 md:px-24">
-          {portfolioItems.map((item, index) => (
-            <motion.div
-              key={item.title}
-              className="relative flex-shrink-0 w-[80vw] md:w-[40vw] h-[60vh] rounded-3xl overflow-hidden group cursor-pointer"
-            >
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-              
-              <div className="absolute inset-0 p-8 flex flex-col justify-end space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-accent-green text-[10px] uppercase tracking-widest font-bold">
-                    {item.category} — {item.year}
-                  </span>
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-accent-green group-hover:border-accent-green transition-all duration-300">
-                    <ArrowUpRight size={18} className="text-white" />
+        <div className="flex-1 flex items-center">
+          <motion.div style={{ x }} className="flex space-x-12 px-6 md:px-24">
+            {portfolioItems.map((item, index) => (
+              <motion.div
+                key={item.title}
+                className="relative flex-shrink-0 w-[85vw] md:w-[45vw] h-[50vh] md:h-[55vh] rounded-3xl overflow-hidden group cursor-pointer"
+              >
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${item.image})` }}
+                />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                
+                <div className="absolute inset-0 p-8 flex flex-col justify-end space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-accent-green text-[10px] uppercase tracking-widest font-bold">
+                      {item.category} — {item.year}
+                    </span>
+                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-accent-green group-hover:border-accent-green transition-all duration-300">
+                      <ArrowUpRight size={18} className="text-white" />
+                    </div>
                   </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent-green transition-colors">
+                    {item.title}
+                  </h3>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent-green transition-colors">
-                  {item.title}
-                </h3>
+              </motion.div>
+            ))}
+            
+            {/* View All Card */}
+            <div className="flex-shrink-0 w-[85vw] md:w-[45vw] h-[50vh] md:h-[55vh] rounded-3xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center space-y-6 group cursor-pointer hover:border-accent-green/50 transition-colors">
+              <div className="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-accent-green group-hover:border-accent-green transition-all duration-300">
+                <ArrowUpRight size={32} className="text-white" />
               </div>
-            </motion.div>
-          ))}
-          
-          {/* View All Card */}
-          <div className="flex-shrink-0 w-[80vw] md:w-[40vw] h-[60vh] rounded-3xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center space-y-6 group cursor-pointer hover:border-accent-green/50 transition-colors">
-            <div className="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-accent-green group-hover:border-accent-green transition-all duration-300">
-              <ArrowUpRight size={32} className="text-white" />
+              <span className="text-white text-xl font-bold uppercase tracking-widest group-hover:text-accent-green transition-colors">
+                View All Projects
+              </span>
             </div>
-            <span className="text-white text-xl font-bold uppercase tracking-widest group-hover:text-accent-green transition-colors">
-              View All Projects
-            </span>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Background Text Overlay */}
         <div className="absolute bottom-12 right-12 opacity-[0.03] pointer-events-none select-none">
