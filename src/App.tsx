@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, Variants } from 'motion/react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -65,22 +65,62 @@ const LoadingScreen = () => {
   );
 };
 
+const pageVariants: Variants = {
+  initial: {
+    opacity: 0,
+    rotateY: 45,
+    scale: 0.9,
+    z: -200,
+  },
+  animate: {
+    opacity: 1,
+    rotateY: 0,
+    scale: 1,
+    z: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    rotateY: -45,
+    scale: 0.9,
+    z: -200,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/corporate-events" element={<CorporateEventsPage />} />
-        <Route path="/social-events" element={<SocialEventsPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/grow-with-us" element={<GrowWithUsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
-    </AnimatePresence>
+    <div className="perspective-container" style={{ perspective: '2000px' }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={pageVariants}
+          className="w-full origin-center"
+        >
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/corporate-events" element={<CorporateEventsPage />} />
+            <Route path="/social-events" element={<SocialEventsPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/grow-with-us" element={<GrowWithUsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 };
 
