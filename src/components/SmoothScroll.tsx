@@ -2,6 +2,7 @@ import React, { useEffect, useRef, createContext, useContext } from 'react';
 import LocomotiveScroll from 'locomotive-scroll';
 import 'locomotive-scroll/dist/locomotive-scroll.css';
 import { useMotionValue } from 'motion/react';
+import { useLocation } from 'react-router-dom';
 
 interface ScrollContextType {
   scrollY: any;
@@ -17,6 +18,8 @@ interface SmoothScrollProps {
 export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollY = useMotionValue(0);
+  const location = useLocation();
+  const scrollInstance = useRef<LocomotiveScroll | null>(null);
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -28,6 +31,8 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       lerp: 0.05,
       touchMultiplier: 2,
     });
+
+    scrollInstance.current = scroll;
 
     scroll.on('scroll', (args: any) => {
       window.dispatchEvent(new CustomEvent('loco-scroll', { detail: args }));
@@ -49,8 +54,16 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       if (scroll) scroll.destroy();
       window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
+      scrollInstance.current = null;
     };
   }, [scrollY]);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    if (scrollInstance.current) {
+      scrollInstance.current.scrollTo(0, { duration: 0, disableLerp: true });
+    }
+  }, [location.pathname]);
 
   return (
     <ScrollContext.Provider value={{ scrollY }}>

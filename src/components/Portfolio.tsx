@@ -131,58 +131,62 @@ export const Portfolio: React.FC = () => {
           </div>
         </div>
 
-        {/* Creative Grid */}
+        {/* Masonry Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[250px] md:auto-rows-[300px]"
+          className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"
         >
           {portfolioItems.map((item, index) => (
             <motion.div
               key={item.title}
               variants={itemVariants}
-              className={`relative rounded-3xl overflow-hidden group cursor-none
-                ${item.size === 'large' ? 'md:col-span-2 md:row-span-2' : ''}
-                ${item.size === 'tall' ? 'md:col-span-1 md:row-span-2' : ''}
-                ${item.size === 'wide' ? 'md:col-span-2 md:row-span-1' : ''}
-                ${item.size === 'small' ? 'md:col-span-1 md:row-span-1' : ''}
-                ${item.size === 'medium' ? 'md:col-span-1 md:row-span-1' : ''}
-              `}
+              className="relative rounded-[32px] overflow-hidden group cursor-none break-inside-avoid mb-8"
             >
-              {/* Image with Filter */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-400 ease-out"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-500" />
-              
-              {/* Content */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="flex justify-between items-start">
-                  <span className="px-3 py-1 rounded-full border border-white/20 text-[10px] uppercase tracking-widest text-white font-medium backdrop-blur-sm">
-                    {item.category}
-                  </span>
-                  <div className="w-10 h-10 rounded-full bg-accent-green flex items-center justify-center text-black">
-                    <Plus size={20} />
+              {/* Image with Aspect Ratio */}
+              <div className={`relative w-full overflow-hidden ${
+                item.size === 'large' ? 'aspect-[4/5]' : 
+                item.size === 'tall' ? 'aspect-[2/3]' : 
+                item.size === 'wide' ? 'aspect-[16/9]' : 
+                'aspect-square'
+              }`}>
+                <div 
+                  className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out"
+                  style={{ backgroundImage: `url(${item.image})` }}
+                />
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500" />
+                
+                {/* Content */}
+                <div className="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                  <div className="flex justify-between items-start">
+                    <span className="px-4 py-1.5 rounded-full border border-white/30 text-[10px] uppercase tracking-widest text-white font-bold backdrop-blur-md bg-white/10">
+                      {item.category}
+                    </span>
+                    <div className="w-12 h-12 rounded-full bg-accent-green flex items-center justify-center text-black shadow-xl shadow-accent-green/20">
+                      <Plus size={24} />
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col space-y-2">
+                    <span className="text-accent-green text-[10px] font-black uppercase tracking-[0.3em]">{item.year}</span>
+                    <h3 className="text-3xl font-bold text-white leading-tight tracking-tight">
+                      {item.title}
+                    </h3>
                   </div>
                 </div>
-                
-                <div className="flex flex-col space-y-1">
-                  <span className="text-accent-green text-[10px] font-bold uppercase tracking-[0.2em]">{item.year}</span>
-                  <h3 className="text-2xl font-bold text-white leading-tight">
-                    {item.title}
-                  </h3>
-                </div>
-              </div>
 
-              {/* Static Info (Visible when not hovered) */}
-              <div className="absolute bottom-8 left-8 group-hover:opacity-0 transition-opacity duration-300">
-                <h3 className="text-lg font-bold text-white/80 uppercase tracking-widest">
-                  {item.title.split(' ')[0]}
-                </h3>
+                {/* Static Info (Visible when not hovered) */}
+                <div className="absolute bottom-8 left-8 group-hover:opacity-0 transition-opacity duration-300">
+                  <div className="flex flex-col space-y-1">
+                    <div className="w-8 h-[1px] bg-accent-green mb-2" />
+                    <h3 className="text-sm font-bold text-white uppercase tracking-[0.2em]">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}

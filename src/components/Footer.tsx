@@ -48,10 +48,10 @@ export const Footer: React.FC = () => {
               Curating extraordinary experiences across India. Based in Lucknow, operating nationwide.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white/40 hover:text-accent-green transition-colors"><Instagram size={20} /></a>
-              <a href="#" className="text-white/40 hover:text-accent-green transition-colors"><Twitter size={20} /></a>
-              <a href="#" className="text-white/40 hover:text-accent-green transition-colors"><Facebook size={20} /></a>
-              <a href="#" className="text-white/40 hover:text-accent-green transition-colors"><Linkedin size={20} /></a>
+              <a href="https://instagram.com/bamboogroves" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-accent-green transition-colors"><Instagram size={20} /></a>
+              <a href="https://twitter.com/bamboogroves" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-accent-green transition-colors"><Twitter size={20} /></a>
+              <a href="https://facebook.com/bamboogroves" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-accent-green transition-colors"><Facebook size={20} /></a>
+              <a href="https://linkedin.com/company/bamboogroves" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-accent-green transition-colors"><Linkedin size={20} /></a>
             </div>
           </div>
 
@@ -60,9 +60,8 @@ export const Footer: React.FC = () => {
             <ul className="flex flex-col space-y-4">
               <li><Link to="/" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Home</Link></li>
               <li><Link to="/about" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">About</Link></li>
-              <li><Link to="/services" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Services</Link></li>
-              <li><Link to="/portfolio" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Portfolio</Link></li>
-              <li><Link to="/grow-with-us" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Grow With Us</Link></li>
+              <li><Link to="/corporate-events" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Corporate Events</Link></li>
+              <li><Link to="/social-events" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Social Events</Link></li>
               <li><Link to="/contact" className="text-white/40 hover:text-accent-green transition-colors text-sm uppercase tracking-widest">Contact</Link></li>
             </ul>
           </div>

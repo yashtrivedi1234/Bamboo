@@ -9,6 +9,8 @@ import { CustomCursor } from './components/CustomCursor';
 // Pages
 import { Home } from './pages/Home';
 import { AboutPage } from './pages/AboutPage';
+import { CorporateEventsPage } from './pages/CorporateEventsPage';
+import { SocialEventsPage } from './pages/SocialEventsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { PortfolioPage } from './pages/PortfolioPage';
 import { GrowWithUsPage } from './pages/GrowWithUsPage';
@@ -71,6 +73,8 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/corporate-events" element={<CorporateEventsPage />} />
+        <Route path="/social-events" element={<SocialEventsPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/grow-with-us" element={<GrowWithUsPage />} />
