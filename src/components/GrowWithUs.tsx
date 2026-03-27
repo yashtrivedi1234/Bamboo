@@ -36,7 +36,7 @@ export const GrowWithUs: React.FC = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
   };
 
   return (
@@ -96,7 +96,7 @@ export const GrowWithUs: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
           className="relative rounded-[40px] overflow-hidden p-12 md:p-20 flex flex-col items-center text-center space-y-8"
         >
           {/* Background Image with Overlay */}

@@ -54,7 +54,7 @@ export const Testimonials: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3 }}
               className="flex flex-col items-center text-center space-y-8 max-w-3xl"
             >
               <Quote size={48} className="text-accent-green opacity-20" />
